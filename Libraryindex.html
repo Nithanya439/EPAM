@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Library Book Management System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    input, select, button {
+      margin: 10px 0;
+      padding: 8px;
+    }
+    .section {
+      margin-top: 20px;
+    }
+    .book {
+      padding: 5px;
+      border-bottom: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Library Book Management</h2>
+
+  <div class="section">
+    <h3>Borrow a Book</h3>
+    <input type="text" id="borrowerName" placeholder="Member Name">
+    <select id="borrowBookSelect"></select>
+    <button onclick="borrowBook()">Borrow</button>
+  </div>
+
+  <div class="section">
+    <h3>Return a Book</h3>
+    <select id="returnBookSelect"></select>
+    <button onclick="returnBook()">Return</button>
+  </div>
+
+  <div class="section">
+    <h3>Available Books</h3>
+    <div id="availableBooks"></div>
+  </div>
+
+  <div class="section">
+    <h3>Borrowed Books</h3>
+    <div id="borrowedBooks"></div>
+  </div>
+
+  <script>
+    class Book {
+      constructor(id, title, author) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.isBorrowed = false;
+        this.borrowedBy = null;
+      }
+    }
+
+    class Member {
+      constructor(name) {
+        this.name = name;
+      }
+    }
+
+    const books = [
+      new Book(1, "The Great Gatsby", "F. Scott Fitzgerald"),
+      new Book(2, "To Kill a Mockingbird", "Harper Lee"),
+      new Book(3, "1984", "George Orwell"),
+      new Book(4, "Pride and Prejudice", "Jane Austen"),
+    ];
+
+    function borrowBook() {
+      const name = document.getElementById("borrowerName").value.trim();
+      const bookId = parseInt(document.getElementById("borrowBookSelect").value);
+
+      if (!name || isNaN(bookId)) {
+        alert("Enter member name and select a book.");
+        return;
+      }
+
+      const member = new Member(name);
+      const book = books.find(b => b.id === bookId);
+
+      if (book && !book.isBorrowed) {
+        book.isBorrowed = true;
+        book.borrowedBy = member.name;
+        render();
+      }
+    }
+
+    function returnBook() {
+      const bookId = parseInt(document.getElementById("returnBookSelect").value);
+
+      const book = books.find(b => b.id === bookId);
+      if (book && book.isBorrowed) {
+        book.isBorrowed = false;
+        book.borrowedBy = null;
+        render();
+      }
+    }
+
+    function render() {
+      const availableBooksDiv = document.getElementById("availableBooks");
+      const borrowedBooksDiv = document.getElementById("borrowedBooks");
+      const borrowSelect = document.getElementById("borrowBookSelect");
+      const returnSelect = document.getElementById("returnBookSelect");
+
+      availableBooksDiv.innerHTML = '';
+      borrowedBooksDiv.innerHTML = '';
+      borrowSelect.innerHTML = '<option value="">Select Book</option>';
+      returnSelect.innerHTML = '<option value="">Select Book</option>';
+
+      books.forEach(book => {
+        const info = `${book.title} by ${book.author}`;
+
+        if (!book.isBorrowed) {
+          availableBooksDiv.innerHTML += `<div class="book">${info}</div>`;
+          borrowSelect.innerHTML += `<option value="${book.id}">${info}</option>`;
+        } else {
+          borrowedBooksDiv.innerHTML += `<div class="book">${info} (Borrowed by: ${book.borrowedBy})</div>`;
+          returnSelect.innerHTML += `<option value="${book.id}">${info}</option>`;
+        }
+      });
+    }
+
+    render();
+  </script>
+
+</body>
+</html>

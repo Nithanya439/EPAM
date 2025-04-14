@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generic Stack Implementation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .stack-item {
+      padding: 5px;
+      border: 1px solid #ddd;
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Generic Stack Implementation (JavaScript)</h2>
+
+  <h3>Number Stack</h3>
+  <div id="numberStack"></div>
+
+  <h3>String Stack</h3>
+  <div id="stringStack"></div>
+
+  <h3>Object Stack</h3>
+  <div id="objectStack"></div>
+
+  <script>
+    class Stack {
+      constructor() {
+        this.items = [];
+      }
+
+      // Push an element to the stack
+      push(item) {
+        this.items.push(item);
+      }
+
+      // Pop an element from the stack
+      pop() {
+        return this.items.pop();
+      }
+
+      // Peek at the top element of the stack
+      peek() {
+        return this.items[this.items.length - 1];
+      }
+
+      // Check if the stack is empty
+      isEmpty() {
+        return this.items.length === 0;
+      }
+
+      // Display stack content
+      printStack(elementId) {
+        const stackDiv = document.getElementById(elementId);
+        stackDiv.innerHTML = this.items.map(item => `<div class="stack-item">${JSON.stringify(item)}</div>`).join('');
+      }
+    }
+
+    // Number Stack
+    const numberStack = new Stack();
+    numberStack.push(10);
+    numberStack.push(20);
+    numberStack.push(30);
+    numberStack.printStack("numberStack");
+
+    // String Stack
+    const stringStack = new Stack();
+    stringStack.push("Hello");
+    stringStack.push("World");
+    stringStack.printStack("stringStack");
+
+    // Object Stack
+    const objectStack = new Stack();
+    objectStack.push({ name: "Alice", age: 25 });
+    objectStack.push({ name: "Bob", age: 30 });
+    objectStack.printStack("objectStack");
+
+    // Demonstrate pop and peek
+    console.log("Popped from number stack:", numberStack.pop());
+    console.log("Peek from string stack:", stringStack.peek());
+  </script>
+
+</body>
+</html>

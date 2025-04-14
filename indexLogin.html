@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Login</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 30px;
+    }
+    input {
+      display: block;
+      margin: 10px 0;
+      padding: 8px;
+    }
+    button {
+      padding: 8px 16px;
+    }
+    #message {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Login Form</h2>
+
+  <input type="text" id="username" placeholder="Enter username">
+  <input type="password" id="password" placeholder="Enter password">
+  <button onclick="login()">Login</button>
+
+  <p id="message"></p>
+
+  <script>
+    // Simulating a User interface
+    const users = [
+      { username: 'alice', password: 'pass123' },
+      { username: 'bob', password: 'qwerty' },
+      { username: 'charlie', password: '123456' }
+    ];
+
+    function login() {
+      const uname = document.getElementById("username").value;
+      const pwd = document.getElementById("password").value;
+
+      const foundUser = users.find(u => u.username === uname && u.password === pwd);
+
+      const msg = document.getElementById("message");
+
+      if (foundUser) {
+        msg.textContent = `✅ Welcome, ${uname}! Login successful.`;
+        msg.style.color = 'green';
+      } else {
+        msg.textContent = "❌ Invalid username or password.";
+        msg.style.color = 'red';
+      }
+    }
+  </script>
+
+</body>
+</html>
